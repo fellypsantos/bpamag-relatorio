@@ -24,9 +24,9 @@ Por padrão do SUS, alguns procedimentos são consolidados por idade, esse scrip
 
 > **Consolidado pelo bpamag.py**
 
-|  Procedimento  | Quantidade |     Descrição      |
-| :------------: | :--------: | :----------------: |
-| 02.04.04.009-4 |     28     | RADIOGRAFIA DE MAO |
+|  Procedimento  | Quantidade | Val Unit | Val Total  |     Descrição      |
+| :------------: | :--------: | :------: | :--------: | :----------------: |
+| 02.04.04.009-4 |     28     | R\$ 6,30 | R\$ 176,40 | RADIOGRAFIA DE MAO |
 
 ---
 
@@ -39,7 +39,7 @@ Por padrão do SUS, alguns procedimentos são consolidados por idade, esse scrip
 ![Executando script bpamag.py](https://i.imgur.com/7qZ7kDe.gif)
 
 3 - Um relatório com descrição dos procedimentos será gerado, é só abrir e imprimir.
-![Relatório final gerado](https://i.imgur.com/IasHlCh.png)
+![Relatório final gerado](https://i.imgur.com/99yimUH.png)
 
 ---
 

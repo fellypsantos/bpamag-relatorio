@@ -98,8 +98,10 @@ def consolidate_procedures():
 
 def generate_report_data():
     global exportListFormat
+    finalPrice = 0
     print('\nGerando relatório final...')
 
+    # loop through each CNES in finalLog
     for cnes, procedures in finalLog.items():
         exportListFormat += '<h4>CNES: ' + cnes + '</h4>\n'
         
@@ -119,25 +121,31 @@ def generate_report_data():
             'Val Total',
             ' '*5,
             'Descricao\n')
-
+        
+        # loop through each procedure on current CNES in finalLog
         for procNumber, procTotal in procedures.items():
 
+            # name
+            # price will be - if R$ 0
             procedureName = get_procedure_info(procNumber)['name']
             procedurePrice = get_procedure_info(procNumber)['price']
-            procedurePrice = '-' if procedurePrice == '0.00' else 'R$ {}'.format(procedurePrice)
-            procedurePriceTotal = '-' if procedurePrice == '-' else 'R$ {}'.format(format(float( procedurePrice.replace('R$ ', '') ) * int(procTotal), '.2f'))
+            procedurePriceRS = '-' if procedurePrice == '0.00' else 'R$ {}'.format(procedurePrice)
+            procedurePriceTotal = '-' if procedurePriceRS == '-' else 'R$ {}'.format(format(float( procedurePrice ) * int(procTotal), '.2f'))
+            finalPrice += float( procedurePrice ) * int(procTotal)
 
             tmpProceduresList += stringPreset.format(
                 procNumber,
                 procTotal,
-                procedurePrice,
-                procedurePriceTotal,
+                procedurePriceRS.replace('.', ','),
+                procedurePriceTotal.replace('.', ','),
                 ' '*5,
                 procedureName
             )
  
         tmpProceduresList += '</pre>\n'
         exportListFormat += tmpProceduresList
+    
+    exportListFormat += '<hr><h4>TOTAL: R$ {}</h4>'.format(format(finalPrice, '.2f'))
 
 def save_report_to_file():
     reportFile = open('{}.html'.format(date.replace('/', '-')), 'w+')
