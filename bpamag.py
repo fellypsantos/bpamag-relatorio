@@ -102,18 +102,40 @@ def generate_report_data():
 
     for cnes, procedures in finalLog.items():
         exportListFormat += '<h4>CNES: ' + cnes + '</h4>\n'
+        
+        # 15 spaces to procedure number
+        #  7 spaces to total of procedures
+        # 12 spaces to price
+        # 15 spaces to total price
+        #  5 spaces to formatting
+        #  - spaces to procedure number
+        stringPreset = '{:<15}{:>7}{:>12}{:>15}{}{}\n'
+
         tmpProceduresList = '<pre>'
-        tmpProceduresList += '{:<15}{:>7}{}{}\n'.format(
-            'Procedimento', 'Total', ' '*5, 'Descricao\n')
+        tmpProceduresList += stringPreset.format(
+            'Procedimento',
+            'Total',
+            'Val Unit',
+            'Val Total',
+            ' '*5,
+            'Descricao\n')
 
         for procNumber, procTotal in procedures.items():
-            # 15 spaces to procedure number
-            #  7 spaces to total of procedures
-            #  5 spaces to formatting
-            #  - spaces to procedure number
-            tmpProceduresList += '{:<15}{:>7}{}{}\n'.format(
-                procNumber, procTotal, ' '*5, get_procedure_info(procNumber)['name'])
 
+            procedureName = get_procedure_info(procNumber)['name']
+            procedurePrice = get_procedure_info(procNumber)['price']
+            procedurePrice = '-' if procedurePrice == '0.00' else 'R$ {}'.format(procedurePrice)
+            procedurePriceTotal = '-' if procedurePrice == '-' else 'R$ {}'.format(format(float( procedurePrice.replace('R$ ', '') ) * int(procTotal), '.2f'))
+
+            tmpProceduresList += stringPreset.format(
+                procNumber,
+                procTotal,
+                procedurePrice,
+                procedurePriceTotal,
+                ' '*5,
+                procedureName
+            )
+ 
         tmpProceduresList += '</pre>\n'
         exportListFormat += tmpProceduresList
 
